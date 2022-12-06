@@ -153,96 +153,96 @@ func TestIPv4Entry(t *testing.T) {
 					AsResult(),
 			},
 		},
-		{
-			desc: "Multiple next-hops",
-			entries: []fluent.GRIBIEntry{
-				fluent.NextHopEntry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
-					WithIndex(nh1ID).WithIPAddress(atePort2.IPv4),
-				fluent.NextHopEntry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
-					WithIndex(nh2ID).WithIPAddress(atePort3.IPv4),
-				fluent.NextHopGroupEntry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
-					WithID(nhgID).AddNextHop(nh1ID, 1).AddNextHop(nh2ID, 1),
-				fluent.IPv4Entry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
-					WithPrefix(dstPfx).WithNextHopGroup(nhgID),
-			},
-			wantGoodFlows: []string{"ecmpFlow"},
-			wantOperationResults: []*client.OpResult{
-				fluent.OperationResult().
-					WithNextHopOperation(nh1ID).
-					WithProgrammingResult(fluent.InstalledInFIB).
-					WithOperationType(constants.Add).
-					AsResult(),
-				fluent.OperationResult().
-					WithNextHopOperation(nh2ID).
-					WithProgrammingResult(fluent.InstalledInFIB).
-					WithOperationType(constants.Add).
-					AsResult(),
-				fluent.OperationResult().
-					WithNextHopGroupOperation(nhgID).
-					WithProgrammingResult(fluent.InstalledInFIB).
-					WithOperationType(constants.Add).
-					AsResult(),
-				fluent.OperationResult().
-					WithIPv4Operation(dstPfx).
-					WithProgrammingResult(fluent.InstalledInFIB).
-					WithOperationType(constants.Add).
-					AsResult(),
-			},
-		},
-		{
-			desc: "Nonexistant next-hop",
-			entries: []fluent.GRIBIEntry{
-				fluent.NextHopGroupEntry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
-					WithID(nhgID).AddNextHop(badNH, 1),
-				fluent.IPv4Entry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
-					WithPrefix(dstPfx).WithNextHopGroup(nhgID),
-			},
-			wantBadFlows: []string{"port2Flow", "port3Flow"},
-			wantOperationResults: []*client.OpResult{
-				fluent.OperationResult().
-					WithNextHopGroupOperation(nhgID).
-					WithProgrammingResult(fluent.ProgrammingFailed).
-					WithOperationType(constants.Add).
-					AsResult(),
-				fluent.OperationResult().
-					WithIPv4Operation(dstPfx).
-					WithProgrammingResult(fluent.ProgrammingFailed).
-					WithOperationType(constants.Add).
-					AsResult(),
-			},
-		},
-		{
-			// ate port link cannot be set to down in kne, therefore the downPort is a dut port
-			desc:     "Downed next-hop interface",
-			downPort: dut.Port(t, "port2"),
-			entries: []fluent.GRIBIEntry{
-				fluent.NextHopEntry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
-					WithIndex(nh1ID).WithIPAddress(atePort2.IPv4).
-					WithInterfaceRef(dut.Port(t, "port2").Name()).WithMacAddress(badMAC),
-				fluent.NextHopGroupEntry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
-					WithID(nhgID).AddNextHop(nh1ID, 1),
-				fluent.IPv4Entry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
-					WithPrefix(dstPfx).WithNextHopGroup(nhgID),
-			},
-			wantBadFlows: []string{"port2Flow", "port3Flow"},
-			wantOperationResults: []*client.OpResult{
-				fluent.OperationResult().
-					WithNextHopOperation(nh1ID).
-					WithProgrammingResult(fluent.InstalledInFIB).
-					WithOperationType(constants.Add).
-					AsResult(),
-				fluent.OperationResult().
-					WithNextHopGroupOperation(nhgID).
-					WithProgrammingResult(fluent.InstalledInFIB).
-					WithOperationType(constants.Add).
-					AsResult(),
-				fluent.OperationResult().
-					WithIPv4Operation(dstPfx).
-					WithProgrammingResult(fluent.InstalledInFIB).
-					WithOperationType(constants.Add).
-					AsResult(),
-			},
-		},
+		//{
+		//	desc: "Multiple next-hops",
+		//	entries: []fluent.GRIBIEntry{
+		//		fluent.NextHopEntry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
+		//			WithIndex(nh1ID).WithIPAddress(atePort2.IPv4),
+		//		fluent.NextHopEntry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
+		//			WithIndex(nh2ID).WithIPAddress(atePort3.IPv4),
+		//		fluent.NextHopGroupEntry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
+		//			WithID(nhgID).AddNextHop(nh1ID, 1).AddNextHop(nh2ID, 1),
+		//		fluent.IPv4Entry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
+		//			WithPrefix(dstPfx).WithNextHopGroup(nhgID),
+		//	},
+		//	wantGoodFlows: []string{"ecmpFlow"},
+		//	wantOperationResults: []*client.OpResult{
+		//		fluent.OperationResult().
+		//			WithNextHopOperation(nh1ID).
+		//			WithProgrammingResult(fluent.InstalledInFIB).
+		//			WithOperationType(constants.Add).
+		//			AsResult(),
+		//		fluent.OperationResult().
+		//			WithNextHopOperation(nh2ID).
+		//			WithProgrammingResult(fluent.InstalledInFIB).
+		//			WithOperationType(constants.Add).
+		//			AsResult(),
+		//		fluent.OperationResult().
+		//			WithNextHopGroupOperation(nhgID).
+		//			WithProgrammingResult(fluent.InstalledInFIB).
+		//			WithOperationType(constants.Add).
+		//			AsResult(),
+		//		fluent.OperationResult().
+		//			WithIPv4Operation(dstPfx).
+		//			WithProgrammingResult(fluent.InstalledInFIB).
+		//			WithOperationType(constants.Add).
+		//			AsResult(),
+		//	},
+		//},
+		//{
+		//	desc: "Nonexistant next-hop",
+		//	entries: []fluent.GRIBIEntry{
+		//		fluent.NextHopGroupEntry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
+		//			WithID(nhgID).AddNextHop(badNH, 1),
+		//		fluent.IPv4Entry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
+		//			WithPrefix(dstPfx).WithNextHopGroup(nhgID),
+		//	},
+		//	wantBadFlows: []string{"port2Flow", "port3Flow"},
+		//	wantOperationResults: []*client.OpResult{
+		//		fluent.OperationResult().
+		//			WithNextHopGroupOperation(nhgID).
+		//			WithProgrammingResult(fluent.ProgrammingFailed).
+		//			WithOperationType(constants.Add).
+		//			AsResult(),
+		//		fluent.OperationResult().
+		//			WithIPv4Operation(dstPfx).
+		//			WithProgrammingResult(fluent.ProgrammingFailed).
+		//			WithOperationType(constants.Add).
+		//			AsResult(),
+		//	},
+		//},
+		//{
+		//	// ate port link cannot be set to down in kne, therefore the downPort is a dut port
+		//	desc:     "Downed next-hop interface",
+		//	downPort: dut.Port(t, "port2"),
+		//	entries: []fluent.GRIBIEntry{
+		//		fluent.NextHopEntry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
+		//			WithIndex(nh1ID).WithIPAddress(atePort2.IPv4).
+		//			WithInterfaceRef(dut.Port(t, "port2").Name()).WithMacAddress(badMAC),
+		//		fluent.NextHopGroupEntry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
+		//			WithID(nhgID).AddNextHop(nh1ID, 1),
+		//		fluent.IPv4Entry().WithNetworkInstance(*deviations.DefaultNetworkInstance).
+		//			WithPrefix(dstPfx).WithNextHopGroup(nhgID),
+		//	},
+		//	wantBadFlows: []string{"port2Flow", "port3Flow"},
+		//	wantOperationResults: []*client.OpResult{
+		//		fluent.OperationResult().
+		//			WithNextHopOperation(nh1ID).
+		//			WithProgrammingResult(fluent.InstalledInFIB).
+		//			WithOperationType(constants.Add).
+		//			AsResult(),
+		//		fluent.OperationResult().
+		//			WithNextHopGroupOperation(nhgID).
+		//			WithProgrammingResult(fluent.InstalledInFIB).
+		//			WithOperationType(constants.Add).
+		//			AsResult(),
+		//		fluent.OperationResult().
+		//			WithIPv4Operation(dstPfx).
+		//			WithProgrammingResult(fluent.InstalledInFIB).
+		//			WithOperationType(constants.Add).
+		//			AsResult(),
+		//	},
+		//},
 	}
 
 	const (

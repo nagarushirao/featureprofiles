@@ -231,6 +231,10 @@ github.com/mitchellh/go-wordwrap v1.0.1/go.mod h1:R62XHJLzvMFRBbcrT7m7WgmE1eOyTS
 github.com/mitchellh/mapstructure v1.5.0 h1:jeMsZIYE/09sWLaz43PL7Gy6RuMjD2eJVyuac5Z2hdY=
 github.com/mitchellh/mapstructure v1.5.0/go.mod h1:bFUtVrKA4DC2yAKiSyO/QUcy7e+RRV2QTWOzhPopBRo=
 github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e/go.mod h1:zD1mROLANZcx1PVRCS0qkT7pwLkGfwJo4zjcN/Tysno=
+github.com/open-traffic-generator/snappi/gosnappi v0.9.5 h1:KHe9KDXnibkFYUq2LKhAERlfmmTjiN9s4mi6pSkNT5M=
+github.com/open-traffic-generator/snappi/gosnappi v0.9.5/go.mod h1:elsB41LK8QapLrlfZJucYrQhxEw3ylGo3JgKo8kerZI=
+github.com/open-traffic-generator/snappi/gosnappi v0.9.8 h1:l/WnMfvhNZ8mMtMetQQOrOuXMZR9Cj+bTJuYRj/lNUg=
+github.com/open-traffic-generator/snappi/gosnappi v0.9.8/go.mod h1:1Hb0ddgn47IB6aTzRLXzVDHE1Muw+x5Iw+WdkJq9UjE=
 github.com/open-traffic-generator/snappi/gosnappi v0.10.2 h1:nmEVLvPRezKLp9z1cP+8czNfjAs6xUq1m4WEfyjF7lM=
 github.com/open-traffic-generator/snappi/gosnappi v0.10.2/go.mod h1:jscPwzdT/z64GxIKPxju4RtjkB0GIGVqnALMYvJ0fB4=
 github.com/openconfig/gnmi v0.0.0-20200414194230-1597cc0f2600/go.mod h1:M/EcuapNQgvzxo1DDXHK4tx3QpYM/uG4l591v33jG2A=
