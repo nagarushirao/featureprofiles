@@ -1,0 +1,5 @@
+topology: /usr/local/google/home/wenbli/gocode/src/github.com/openconfig/featureprofiles/feature/gribi/otg_tests/ipv4_entry_test/topology.pb.txt
+kubecfg: /usr/local/google/home/wenbli/.kube/config
+cli: /usr/local/bin/kne
+username: foo
+password: fake
